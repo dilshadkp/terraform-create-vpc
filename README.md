@@ -1,7 +1,7 @@
 # Terraform script to setup a VPC
 In this script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet Gateway*, a *NAT Gateway* and 2 *Route Tables*(1 public and 1 private).
 ## 1.Create VPC
-```
+```hcl
 resource "aws_vpc" "blog-vpc" {
   cidr_block            = var.blog-vpc-cidr
   instance_tenancy      = "default"
@@ -16,7 +16,7 @@ resource "aws_vpc" "blog-vpc" {
 ### Public Subnets
 - Creating a public subnet in AZ ap-south-1a
 
-``` 
+```hcl
 resource "aws_subnet" "public1" {
   vpc_id                    = aws_vpc.blog-vpc.id
   cidr_block                = var.public1-cidr
@@ -30,7 +30,7 @@ resource "aws_subnet" "public1" {
 ```
 - Creating a public subnet in AZ ap-south-1b
 
-``` 
+```hcl
 resource "aws_subnet" "public2" {
   vpc_id                    = aws_vpc.blog-vpc.id
   cidr_block                = var.public2-cidr
@@ -45,7 +45,7 @@ resource "aws_subnet" "public2" {
 ```
 - Creating a public subnet in AZ ap-south-1c
 
-``` 
+```hcl
 resource "aws_subnet" "public3" {
   vpc_id                    = aws_vpc.blog-vpc.id
   cidr_block                = var.public3-cidr
@@ -60,7 +60,7 @@ resource "aws_subnet" "public3" {
 ### Private Subnets
 - Creating a private subnet in AZ ap-south-1a
 
-``` 
+```hcl
 resource "aws_subnet" "private1" {
   vpc_id                    = aws_vpc.blog-vpc.id
   cidr_block                = var.private1-cidr
@@ -74,7 +74,7 @@ resource "aws_subnet" "private1" {
 ```
 - Creating a private subnet in AZ ap-south-1b
 
-``` 
+```hcl
 resource "aws_subnet" "private2" {
   vpc_id                    = aws_vpc.blog-vpc.id
   cidr_block                = var.private2-cidr
@@ -87,7 +87,7 @@ resource "aws_subnet" "private2" {
 ```
 - Creating a private subnet in AZ ap-south-1c
 
-``` 
+```hcl
 resource "aws_subnet" "private3" {
   vpc_id     = aws_vpc.blog-vpc.id
   cidr_block = var.private3-cidr
@@ -100,7 +100,7 @@ resource "aws_subnet" "private3" {
 ```
 ## 3.Create Internet Gateway
 
-``` 
+```hcl
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.blog-vpc.id
 
@@ -111,7 +111,7 @@ resource "aws_internet_gateway" "igw" {
 }
 ```
 ## 4.Purchase Elastic IP
-``` 
+```hcl
 resource "aws_eip" "eip" {
   vpc      = true
  tags = {
@@ -121,7 +121,7 @@ resource "aws_eip" "eip" {
 }
 ```
 ## 5.Create NAT Gateway
-``` 
+```hcl
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.eip.id
   subnet_id     = aws_subnet.public1.id
@@ -137,7 +137,7 @@ resource "aws_nat_gateway" "nat" {
 
 - Public Route Table for public Subnets
 
-``` 
+```hcl
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.blog-vpc.id
 
@@ -155,7 +155,7 @@ resource "aws_route_table" "public" {
 - Private Route Table for private Subnets
 
 
-``` 
+```hcl
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.blog-vpc.id
 
@@ -174,7 +174,7 @@ resource "aws_route_table" "private" {
 
 - Associate public subnets with public Route Table
 
-``` 
+```hcl
 resource "aws_route_table_association" "public1" {
   subnet_id      = aws_subnet.public1.id
   route_table_id = aws_route_table.public.id
@@ -194,7 +194,7 @@ resource "aws_route_table_association" "public3" {
 
 - Associate private subnets with private Route Table
 
-``` 
+```hcl
 resource "aws_route_table_association" "private1" {
   subnet_id      = aws_subnet.private1.id
   route_table_id = aws_route_table.private.id
