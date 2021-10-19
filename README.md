@@ -1,5 +1,5 @@
 # Terraform script to setup a VPC
-In this script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet GateWay*, a *NAT GateWay* and 2 *Route Tables*(1 public and 1 private).
+In this script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet Gateway*, a *NAT Gateway* and 2 *Route Tables*(1 public and 1 private).
 ## 1.Create VPC
 ```html
 resource "aws_vpc" "blog-vpc" {
@@ -14,6 +14,8 @@ resource "aws_vpc" "blog-vpc" {
 ```
 ## 2.Create Subnets
 ### Public Subnets
+- Creating a public subnet in AZ ap-south-1a
+
 ```html
 resource "aws_subnet" "public1" {
   vpc_id                    = aws_vpc.blog-vpc.id
@@ -26,6 +28,8 @@ resource "aws_subnet" "public1" {
   }
 }
 ```
+- Creating a public subnet in AZ ap-south-1b
+
 ```html
 resource "aws_subnet" "public2" {
   vpc_id                    = aws_vpc.blog-vpc.id
@@ -39,6 +43,8 @@ resource "aws_subnet" "public2" {
   }
 }
 ```
+- Creating a public subnet in AZ ap-south-1c
+
 ```html
 resource "aws_subnet" "public3" {
   vpc_id                    = aws_vpc.blog-vpc.id
@@ -52,6 +58,8 @@ resource "aws_subnet" "public3" {
 }
 ```
 ### Private Subnets
+- Creating a private subnet in AZ ap-south-1a
+
 ```html
 resource "aws_subnet" "private1" {
   vpc_id                    = aws_vpc.blog-vpc.id
@@ -64,6 +72,8 @@ resource "aws_subnet" "private1" {
   }
 }
 ```
+- Creating a private subnet in AZ ap-south-1b
+
 ```html
 resource "aws_subnet" "private2" {
   vpc_id                    = aws_vpc.blog-vpc.id
@@ -75,6 +85,8 @@ resource "aws_subnet" "private2" {
   }
 }
 ```
+- Creating a private subnet in AZ ap-south-1c
+
 ```html
 resource "aws_subnet" "private3" {
   vpc_id     = aws_vpc.blog-vpc.id
@@ -87,6 +99,7 @@ resource "aws_subnet" "private3" {
 }
 ```
 ## 3.Create Internet Gateway
+
 ```html
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.blog-vpc.id
@@ -121,6 +134,9 @@ resource "aws_nat_gateway" "nat" {
 ```
 ## 6.Create Route Tables
 ### Create Public Route Table
+
+- Public Route Table for public Subnets
+
 ```html
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.blog-vpc.id
@@ -136,6 +152,9 @@ resource "aws_route_table" "public" {
 }
 ```
 ### Create Private Route Table
+- Private Route Table for private Subnets
+
+
 ```html
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.blog-vpc.id
@@ -148,5 +167,46 @@ resource "aws_route_table" "private" {
     Name    = "${var.project}-private-rtb"
     Project = var.project
   }
+}
+```
+## 7.Create subnet associations for Route Tables
+### Public Route Table Association
+
+- Associate public subnets with public Route Table
+
+```html
+resource "aws_route_table_association" "public1" {
+  subnet_id      = aws_subnet.public1.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public2" {
+  subnet_id      = aws_subnet.public2.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public3" {
+  subnet_id      = aws_subnet.public3.id
+  route_table_id = aws_route_table.public.id
+}
+```
+### Private Route Table Association
+
+- Associate private subnets with private Route Table
+
+```html
+resource "aws_route_table_association" "private1" {
+  subnet_id      = aws_subnet.private1.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private3" {
+  subnet_id      = aws_subnet.private3.id
+  route_table_id = aws_route_table.private.id
 }
 ```
