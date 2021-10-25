@@ -2,6 +2,13 @@
 
 In this Terraform script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet Gateway*, a *NAT Gateway* and 2 *Route Tables*(1 public and 1 private).
 
+## Features
+- Fully Automated
+- AWS informations are defined using tfvars file and can easily changed (Automated/Manual)
+- Each subnet CIDR block created automatically using cidrsubnet Function (Automated)
+- Easy to customise and use as the Terraform modules are created using variables,allowing the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations.
+- Project name is appended to the resources that are creating which will make easier to identify the resources.
+
 ## Prerequisites
 - Create an IAM user on your AWS console that have access to create the required resources.
 - Create a dedicated directory where you can create terraform configuration files.
