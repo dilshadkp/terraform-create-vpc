@@ -2,6 +2,8 @@
 
 In this Terraform script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet Gateway*, a *NAT Gateway* and 2 *Route Tables*(1 public and 1 private).
 
+![alt text](https://i.ibb.co/sF9chmK/vpc.png)
+
 ## Features
 - Fully Automated
 - AWS informations are defined using tfvars file and can easily changed (Automated/Manual)
@@ -318,6 +320,18 @@ resource "aws_route_table_association" "private3" {
   subnet_id      = aws_subnet.private3.id
   route_table_id = aws_route_table.private.id
 }
+```
+#### Lets validate the terraform files using
+```hcl
+terraform validate
+```
+#### Lets plan the architecture and verify once again.
+```hcl
+terraform plan
+```
+#### Lets apply the above architecture to the AWS.
+```hcl
+terraform apply
 ```
 
 - **You can change the values of variables as per your requirement in *vars.tfvars* file and execute the code with *-var-file* option**
