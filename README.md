@@ -2,6 +2,8 @@
 
 In this Terraform script, I am creating a **VPC** with 6 *subnets*(3 public and 3 private) along with an *Internet Gateway*, a *NAT Gateway* and 2 *Route Tables*(1 public and 1 private).
 
+![](https://i.ibb.co/swzJJrn/vpc.png)
+
 ## Features
 - Fully Automated
 - AWS informations are defined using tfvars file and can easily changed (Automated/Manual)
