@@ -337,7 +337,7 @@ terraform apply
 - **You can change the values of variables as per your requirement in *vars.tfvars* file and execute the code with *-var-file* option**
 
 
-x--------------------x---------------------x---------------------x---------------------x---------------------x---------------------x---------------------x---------------------x
+x------------------x---------------------x---------------------x-------------------x--------------------x---------------------x-------------------x
 ### ⚙️ Connect with Me 
 
 <p align="center">
